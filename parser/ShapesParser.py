@@ -7,6 +7,11 @@ class ShapesParser(JsonParser):
   
     def __createShapes__(self):
         shapes = []
-        for feature in self.__jsonData__['features']:
-            shapes.append(shape(feature['geometry']))
+        if 'features' in self.__jsonData__:
+            for feature in self.__jsonData__['features']:
+                shapes.append(shape(feature['geometry']))
+        elif 'geometries' in self.__jsonData__:
+            for geometry in self.__jsonData__['geometries']:
+                shapes.append(shape(geometry))
+
         return shapes
