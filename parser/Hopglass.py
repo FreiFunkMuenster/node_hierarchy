@@ -1,6 +1,8 @@
 from parser.JsonParser import JsonParser
 import collections
 import json
+import datetime
+from datetime import timedelta, timezone
 
 class Hopglass(JsonParser):
     def __init__(self, filePath):
@@ -49,7 +51,12 @@ class Hopglass(JsonParser):
 
         for nodeID, nodeData in self.nodes.items():
             nodeData['nodeinfo']['isGateway'] = False
-            nodeData['nodeinfo']['isOnline'] = True # Todo: implement detection
+            nodeLastSeen = datetime.datetime.strptime(nodeData['lastseen'],'%Y-%m-%dT%H:%M:%S.%fZ')
+            if (datetime.datetime.utcnow()-nodeLastSeen).seconds/60 > 20:
+                nodeData['nodeinfo']['isOnline'] = False
+                continue
+            else:
+                nodeData['nodeinfo']['isOnline'] = True
             for iname, ivalue in nodeData['neighbours']['batadv'].items():
                 if 'neighbours' not in ivalue:
                     continue
