@@ -5,13 +5,14 @@ import datetime
 from datetime import timedelta, timezone
 
 class Hopglass(JsonParser):
-    def __init__(self, filePath):
-        super().__init__(filePath)
+    def __init__(self, args):
+        super().__init__(args.raw_json)
         self.ifIDs = {}
         self.links = collections.defaultdict(dict)
         self.nodes = {}
         self.gatewayMacs = []
         self.gateways = []
+        self.offlineThreshold = args.offline_threshold
         self.__aggregateData__()
         # print(self.ifIDs)
         # for k, v in self.links.items():
@@ -52,7 +53,7 @@ class Hopglass(JsonParser):
         for nodeID, nodeData in self.nodes.items():
             nodeData['nodeinfo']['isGateway'] = False
             nodeLastSeen = datetime.datetime.strptime(nodeData['lastseen'],'%Y-%m-%dT%H:%M:%S.%fZ')
-            if (datetime.datetime.utcnow()-nodeLastSeen).seconds/60 > 20:
+            if (datetime.datetime.utcnow()-nodeLastSeen).seconds/60 > self.offlineThreshold:
                 nodeData['nodeinfo']['isOnline'] = False
                 continue
             else:

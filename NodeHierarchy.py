@@ -14,7 +14,7 @@ from info.Info import Info
 class NodeHierarchy(object):
     def __init__(self):
         self.__args__ = self.__parseArguments__()
-        self.__hopglass = Hopglass(self.__args__.raw_json)
+        self.__hopglass = Hopglass(self.__args__)
         # self.__nodesJson__ = NodesParser(self.__args__.json_path)
         # self.__graphJson__ = GraphParser(self.__args__.json_path)
         self.__shapesJson__ = self.__parseShapes__()
@@ -84,5 +84,7 @@ class NodeHierarchy(object):
         parser.add_argument('-if', '--info-filters', nargs='*', required=False, help='Filter info results. Currently supported: min_age:TIME_RANGE, max_age:TIME_RANGE. Examples: -if min_age:1d max_age:2w')
         parser.add_argument('-iop', '--info-out-path', required=False, default='./', help='Folder where info files should be written. Default: ./')
         parser.add_argument('-iot', '--info-out-type', nargs='+', required=False, default='csv', choices=('json', 'csv'), help='Defines the format of info output. Default: csv')
+        parser.add_argument('-ot', '--offline-threshold', nargs='?', required=False, type=int, const=int, default=20, help='The threshold when a node is classified as offline. In minutes.')
+
         return parser.parse_args()
 NodeHierarchy()
