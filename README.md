@@ -27,49 +27,40 @@ Das Tool wird ausschließlich über Argumente beim Aufruf konfiguriert.
 Die Hilfe liefert folgendes:
 
 ```
-$ ./NodeHierarchy.py --help
-usage: NodeHierarchy.py [-h] [-r RAW_JSON] [-s SHAPES_PATH] -t TARGETS
-                        [TARGETS ...] [-sttp SITE_TO_TARGET_PREFIX]
-                        [-o OUT_FILE] [-v]
-                        [-f [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...]]]
-                        [-i [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]]]
-                        [-if [INFO_FILTERS [INFO_FILTERS ...]]]
-                        [-iop INFO_OUT_PATH]
-                        [-iot {json,csv} [{json,csv} ...]]
+usage: NodeHierarchy.py [-h] [-r RAW_JSON] [-s SHAPES_PATH] -t TARGETS [TARGETS ...] [-sttp SITE_TO_TARGET_PREFIX] [-o OUT_FILE] [-op OUT_FILE_NODE_PROVISIONING] [-v]
+                        [-f [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...]] [-i [{get_offline_nodes,offline} ...]] [-if [INFO_FILTERS ...]] [-iop INFO_OUT_PATH]
+                        [-iot {json,csv} [{json,csv} ...]] [-ot [OFFLINE_THRESHOLD]]
 
-This Script generates a hierarchical nodes list for node migration using nginx
-geo feature.
+This Script generates a hierarchical nodes list for node migration using nginx geo feature.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -r RAW_JSON, --raw-json RAW_JSON
-                        Location of raw.json file (can be local folder or
-                        remote URL).
+                        Location of raw.json file (can be local folder or remote URL).
   -s SHAPES_PATH, --shapes-path SHAPES_PATH
-                        Path of shapefiles (can be local folder or remote
-                        URL).
+                        Path of shapefiles (can be local folder or remote URL).
   -t TARGETS [TARGETS ...], --targets TARGETS [TARGETS ...]
-                        List of targets which should be proceeded. Example: -t
-                        citya cityb ...
+                        List of targets which should be proceeded. Example: -t citya cityb ...
   -sttp SITE_TO_TARGET_PREFIX, --site-to-target-prefix SITE_TO_TARGET_PREFIX
-                        Used to match site and target also when prefixes are
-                        different. Example: -sttp "ffmsd,domaene"
+                        Used to match site and target also when prefixes are different. Example: -sttp "ffmsd,domaene"
   -o OUT_FILE, --out-file OUT_FILE
                         Filename where the generated Output should stored.
+  -op OUT_FILE_NODE_PROVISIONING, --out-file-node-provisioning OUT_FILE_NODE_PROVISIONING
+                        Filename where the generated Output should stored.
   -v, --debug           Enable debugging output.
-  -f [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...]], --filters [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...]]
-                        Filter out nodes and local clouds based on filter
-                        rules.
-  -i [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]], --info [{get_offline_nodes,offline} [{get_offline_nodes,offline} ...]]
+  -f [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...], --filters [{exclude_clouds_with_lan_links,no_lan,domain_transitions_only} ...]
+                        Filter out nodes and local clouds based on filter rules.
+  -i [{get_offline_nodes,offline} ...], --info [{get_offline_nodes,offline} ...]
                         Get infos about the graph, links and nodes.
-  -if [INFO_FILTERS [INFO_FILTERS ...]], --info-filters [INFO_FILTERS [INFO_FILTERS ...]]
-                        Filter info results. Currently supported:
-                        min_age:TIME_RANGE, max_age:TIME_RANGE. Examples: -if
-                        min_age:1d max_age:2w
+  -if [INFO_FILTERS ...], --info-filters [INFO_FILTERS ...]
+                        Filter info results. Currently supported: min_age:TIME_RANGE, max_age:TIME_RANGE. Examples: -if min_age:1d max_age:2w
   -iop INFO_OUT_PATH, --info-out-path INFO_OUT_PATH
                         Folder where info files should be written. Default: ./
   -iot {json,csv} [{json,csv} ...], --info-out-type {json,csv} [{json,csv} ...]
                         Defines the format of info output. Default: csv
+  -ot [OFFLINE_THRESHOLD], --offline-threshold [OFFLINE_THRESHOLD]
+                        The threshold when a node is classified as offline. In minutes.
+
 ```
 
 

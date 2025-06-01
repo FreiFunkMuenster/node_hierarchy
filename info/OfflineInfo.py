@@ -20,7 +20,7 @@ class OfflineInfo(InfoMeta):
                 if v.geo != None:
                     for dk, dv in self.__domains__.items():
                         if dv.isPointInDomaene(Point((v.geo['lon'], v.geo['lat']))) == True:
-                            nodeLastSeen = datetime.datetime.strptime(v.__jsonObject__['lastseen'],'%Y-%m-%dT%H:%M:%S')
+                            nodeLastSeen = datetime.datetime.strptime(v.__jsonObject__['lastseen'],'%Y-%m-%dT%H:%M:%S.%fZ')
                             if self.__minAge__ != None:
                                 if self.__minAge__ < nodeLastSeen:
                                     continue

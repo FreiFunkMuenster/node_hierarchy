@@ -1,5 +1,5 @@
 from cloud.Graph import Graph
-from shapely.geometry import MultiPoint
+from shapely import MultiPoint
 from exceptions.HieraException import HieraException
 class LocalGraph(Graph):
     def __init__(self, nodes, links, debugPrint = False):

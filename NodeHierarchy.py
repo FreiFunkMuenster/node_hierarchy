@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 import argparse
 # from parser.NodesParser import NodesParser
 # from parser.GraphParser import GraphParser
@@ -9,6 +9,7 @@ from cloud.GlobalGraph import GlobalGraph
 from parser.ShapesParser import ShapesParser
 from cloud.Domaene import Domaene
 from generator.NginxConfGen import NginxConfGen
+from generator.NodeProvisioning import NodeProvisioningGen
 from info.Info import Info
 
 class NodeHierarchy(object):
@@ -24,6 +25,8 @@ class NodeHierarchy(object):
         self.domains = self.__createDomains__()
         self.nginxConf = NginxConfGen(self.domains, self.__args__)
         self.nginxConf.writeNginxConfigFile()
+        self.nodeProv = NodeProvisioningGen(self.domains, self.__args__)
+        self.nodeProv.writeNodeProvisioningFile()
         self.infos = Info(self.__args__.info, self.__args__.info_out_path, self.__args__.info_out_type, self.__args__.info_filters, self.nodes, self.globalGraph, self.domains)
 
     def __parseShapes__(self):
@@ -74,10 +77,11 @@ class NodeHierarchy(object):
     def __parseArguments__(self):
         parser = argparse.ArgumentParser(description='This Script generates a hierarchical nodes list for node migration using nginx geo feature.')
         parser.add_argument('-r', '--raw-json', required=False, default='https://karte.freifunk-muensterland.de/data/raw.json', help='Location of raw.json file (can be local folder or remote URL).')
-        parser.add_argument('-s', '--shapes-path', required=False, default='https://freifunk-muensterland.de/md-fw-dl/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
+        parser.add_argument('-s', '--shapes-path', required=False, default='https://domaenenwahl.ffmsl.de/shapes/', help='Path of shapefiles (can be local folder or remote URL).')
         parser.add_argument('-t', '--targets', nargs='+', required=True, help='List of targets which should be proceeded. Example: -t citya cityb ...')
         parser.add_argument('-sttp', '--site-to-target-prefix', required=False, help='Used to match site and target also when prefixes are different. Example: -sttp "ffmsd,domaene"')
         parser.add_argument('-o', '--out-file', default='./webserver-configuration', required=False, help='Filename where the generated Output should stored.')
+        parser.add_argument('-op', '--out-file-node-provisioning', default='./node_provisioning.json', required=False, help='Filename where the generated Output should stored.')
         parser.add_argument('-v', '--debug', required=False, action='store_true', help='Enable debugging output.')
         parser.add_argument('-f', '--filters', nargs='*', required=False, choices=('exclude_clouds_with_lan_links', 'no_lan', 'domain_transitions_only'), help='Filter out nodes and local clouds based on filter rules.')
         parser.add_argument('-i', '--info', nargs='*', required=False, choices=('get_offline_nodes','offline'), help='Get infos about the graph, links and nodes.')

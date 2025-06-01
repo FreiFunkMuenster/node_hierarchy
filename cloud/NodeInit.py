@@ -10,8 +10,8 @@ class NodeInit(object):
         self.autoupdaterBranch = self.__getBranch__()
         self.isOnline = self.__jsonObject__['nodeinfo']['isOnline']
         self.publicIPv6Addresses = self.__getPublicAddresses__()
-        self.domName = self.__getSiteCode__()
-        
+        self.domName = self.__getDomainCode__() or self.__getSiteCode__()
+
     def __getInterfaces__(self):
         try:
             return self.__jsonObject__['nodeinfo']['network']['mesh']['bat0']['interfaces']
@@ -52,5 +52,11 @@ class NodeInit(object):
     def __getSiteCode__(self):
         try:
             return self.__jsonObject__['nodeinfo']['system']['site_code']
+        except:
+            return None
+
+    def __getDomainCode__(self):
+        try:
+            return self.__jsonObject__['nodeinfo']['system']['domain_code']
         except:
             return None
